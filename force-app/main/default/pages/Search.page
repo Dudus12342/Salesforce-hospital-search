@@ -1,0 +1,35 @@
+<apex:page controller="DoctorController">
+  <apex:form>
+    <apex:pageBlock>
+      <apex:pageBlockSection columns="2">
+      <apex:inputField label="First Name" value="{!doctor.First_Name__c}"></apex:inputField>
+      <apex:inputField label="Last Name" value="{!doctor.Last_Name__c}"></apex:inputField>
+      <apex:inputField label="City" value="{!doctor.City__c}"></apex:inputField>
+      <apex:inputField label="Country" value="{!doctor.Country__c}"></apex:inputField>
+      <apex:panelGrid>
+      <apex:commandLink action="{!clear}" value="Clear" id="clear" styleClass="btn"/>
+      <apex:commandLink action="{!search}" value="Search" id="search" styleClass="btn"/>
+      </apex:panelGrid>
+      </apex:pageBlockSection>
+      <apex:pageBlockTable value="{!doctorList}" var="doc">
+            <apex:column value="{! doc.Full_Name__c}">
+              <apex:facet name="header">Full Name</apex:facet>
+            </apex:column>
+            <apex:column value="{! doc.Country__c}">
+              <apex:facet name="header">Country</apex:facet>
+            </apex:column>
+            <apex:column value="{! doc.City__c}">
+              <apex:facet name="header">City</apex:facet>
+            </apex:column>
+            <apex:column headerValue="actions">
+              <!-- <apex:commandLink action="/{! doc.Id}" value="view" id="view" styleClass="btn"/> -->
+              <!-- <apex:commandLink action="{!edit}" value="edit" id="edit" styleClass="btn"/> -->
+              <!-- <apex:commandLink action="{!delete}" value="delete" id="delete" styleClass="btn"/> -->
+            </apex:column>
+        </apex:pageBlockTable>
+      <apex:pageBlockSection>
+      
+      </apex:pageBlockSection>
+    </apex:pageBlock>
+  </apex:form>
+</apex:page>
