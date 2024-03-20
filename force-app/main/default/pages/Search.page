@@ -1,4 +1,9 @@
 <apex:page controller="DoctorController">
+  <style>
+    .buttons {
+      display: flex;
+    }
+  </style>
   <apex:form>
     <apex:pageBlock>
       <apex:pageBlockSection columns="2">
@@ -6,9 +11,9 @@
       <apex:inputField label="Last Name" value="{!doctor.Last_Name__c}"></apex:inputField>
       <apex:inputField label="City" value="{!doctor.City__c}"></apex:inputField>
       <apex:inputField label="Country" value="{!doctor.Country__c}"></apex:inputField>
-      <apex:panelGrid>
-      <apex:commandLink action="{!clear}" value="Clear" id="clear" styleClass="btn"/>
-      <apex:commandLink action="{!search}" value="Search" id="search" styleClass="btn"/>
+      <apex:panelGrid columns="2" style="display: inline-block">   
+      <apex:commandLink action="{!search}" value="Search" id="search" styleClass="btn"/>    
+      <apex:commandLink action="{!clear}" value="Clear" id="clear" styleClass="btn" />
       </apex:panelGrid>
       </apex:pageBlockSection>
       <apex:pageBlockTable value="{!doctorList}" var="doc">
@@ -22,9 +27,13 @@
               <apex:facet name="header">City</apex:facet>
             </apex:column>
             <apex:column headerValue="actions">
-              <!-- <apex:commandLink action="/{! doc.Id}" value="view" id="view" styleClass="btn"/> -->
-              <!-- <apex:commandLink action="{!edit}" value="edit" id="edit" styleClass="btn"/> -->
-              <!-- <apex:commandLink action="{!delete}" value="delete" id="delete" styleClass="btn"/> -->
+              <apex:commandLink action="/{! doc.Id}" value="view" id="view" styleClass="btn">
+              </apex:commandLink>
+              <apex:commandLink action="/{! doc.Id}/e?retURL=%2Fa020600001DxOmHAAV" value="edit" id="edit" styleClass="btn">
+              </apex:commandLink> 
+              <apex:commandLink action="{!deleteRecord}" value="delete" id="delete" styleClass="btn">
+                <apex:param value="{!doc.Id}" assignTo="{!doctorId}" />
+              </apex:commandLink> 
             </apex:column>
         </apex:pageBlockTable>
       <apex:pageBlockSection>
