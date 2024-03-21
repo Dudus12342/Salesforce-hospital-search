@@ -1,22 +1,20 @@
 <apex:page controller="DoctorController">
-  <style>
-    .buttons {
-      display: flex;
-    }
-  </style>
   <apex:form>
     <apex:pageBlock>
-      <apex:pageBlockSection columns="2">
-      <apex:inputField label="First Name" value="{!doctor.First_Name__c}"></apex:inputField>
-      <apex:inputField label="Last Name" value="{!doctor.Last_Name__c}"></apex:inputField>
-      <apex:inputField label="City" value="{!doctor.City__c}"></apex:inputField>
-      <apex:inputField label="Country" value="{!doctor.Country__c}"></apex:inputField>
-      <apex:panelGrid columns="2" style="display: inline-block">   
-      <apex:commandLink action="{!search}" value="Search" id="search" styleClass="btn"/>    
-      <apex:commandLink action="{!clear}" value="Clear" id="clear" styleClass="btn" />
-      </apex:panelGrid>
+      <apex:pageBlockSection>
+            <apex:inputField label="First Name" value="{!doctor.First_Name__c}"></apex:inputField>
+            <apex:inputField label="Last Name" value="{!doctor.Last_Name__c}"></apex:inputField>
+            <apex:inputField label="City" value="{!doctor.City__c}"></apex:inputField>
+            <apex:inputField label="Country" value="{!doctor.Country__c}"></apex:inputField>
+            <apex:panelGrid columns="2" style="display: inline-block">   
+            <apex:commandLink action="{!search}" value="Search" id="search" styleClass="btn" />    
+            <apex:commandLink action="{!clear}" value="Clear" id="clear" styleClass="btn"  />
+            </apex:panelGrid>
       </apex:pageBlockSection>
-      <apex:pageBlockTable value="{!doctorList}" var="doc">
+    </apex:pageBlock>
+      <apex:pageBlock rendered="{!showTableBlockFlag}">
+        <apex:pageBlockSection>
+          <apex:pageBlockTable value="{!doctorList}" var="doc">
             <apex:column value="{! doc.Full_Name__c}">
               <apex:facet name="header">Full Name</apex:facet>
             </apex:column>
@@ -27,18 +25,21 @@
               <apex:facet name="header">City</apex:facet>
             </apex:column>
             <apex:column headerValue="actions">
-              <apex:commandLink action="/{! doc.Id}" value="view" id="view" styleClass="btn">
-              </apex:commandLink>
-              <apex:commandLink action="/{! doc.Id}/e?retURL=%2Fa020600001DxOmHAAV" value="edit" id="edit" styleClass="btn">
-              </apex:commandLink> 
-              <apex:commandLink action="{!deleteRecord}" value="delete" id="delete" styleClass="btn">
-                <apex:param value="{!doc.Id}" assignTo="{!doctorId}" />
+              <apex:commandLink action="/{! doc.Id}" value="view" id="view" styleClass="btn"></apex:commandLink>
+              <apex:commandLink action="/{! doc.Id}/e?retURL=%2Fa020600001DxOmHAAV" value="edit" id="edit" styleClass="btn"></apex:commandLink> 
+              <apex:commandLink action="{!showDoctorDeletePromptMethod}" value="delete" id="delete" styleClass="btn">
+                <apex:param name="selectDocId" value="{!doc.Id}" assignTo="{!selectedDoctorId}"> </apex:param>
               </apex:commandLink> 
             </apex:column>
-        </apex:pageBlockTable>
-      <apex:pageBlockSection>
-      
-      </apex:pageBlockSection>
-    </apex:pageBlock>
+          </apex:pageBlockTable>
+        </apex:pageBlockSection>
+      <apex:pageBlockSection rendered="{!showDoctorDeletePrompt}">
+          <h1>Are you sure delete this doctor?</h1>
+          <apex:panelGrid columns="2" style="display: inline-block">   
+          <apex:commandLink action="{!deleteDoctor}" value="Yes" styleClass="btn"></apex:commandLink>
+          <apex:commandLink action="{!cancelDeleteDoctor}" value="No" styleClass="btn"></apex:commandLink>
+          </apex:panelGrid>
+        </apex:pageBlockSection>
+      </apex:pageBlock>
   </apex:form>
 </apex:page>
