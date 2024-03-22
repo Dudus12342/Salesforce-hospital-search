@@ -1,43 +1,44 @@
 <apex:page controller="DoctorController">
+  <apex:stylesheet value="{!$Resource.searchStyle}" />
   <apex:form>
     <apex:pageBlock>
       <apex:pageBlockSection>
-            <apex:inputField label="First Name" value="{!doctor.First_Name__c}"></apex:inputField>
-            <apex:inputField label="Last Name" value="{!doctor.Last_Name__c}"></apex:inputField>
-            <apex:inputField label="City" value="{!doctor.City__c}"></apex:inputField>
-            <apex:inputField label="Country" value="{!doctor.Country__c}"></apex:inputField>
+            <apex:inputField label="{!$Label.firstNameDoc}" value="{!doctor.First_Name__c}"></apex:inputField>
+            <apex:inputField rendered="true" label="{!$Label.lastNameDoc}" value="{!doctor.Last_Name__c}"></apex:inputField>
+            <apex:inputField label="{!$Label.cityDoc}" value="{!doctor.City__c}"></apex:inputField>
+            <apex:inputField label="{!$Label.countryDoc}" value="{!doctor.Country__c}"></apex:inputField>
             <apex:panelGrid columns="2" style="display: inline-block">   
-            <apex:commandLink action="{!search}" value="Search" id="search" styleClass="btn" />    
-            <apex:commandLink action="{!clear}" value="Clear" id="clear" styleClass="btn"  />
+            <apex:commandLink action="{!search}" value="{!$Label.searchActionButton}" id="search" styleClass="btn" />    
+            <apex:commandLink action="{!clear}" value="{!$Label.clearActionButton}" id="clear" styleClass="btn"  />
             </apex:panelGrid>
       </apex:pageBlockSection>
     </apex:pageBlock>
       <apex:pageBlock rendered="{!showTableBlockFlag}">
         <apex:pageBlockSection>
-          <apex:pageBlockTable value="{!doctorList}" var="doc">
+          <apex:pageBlockTable value="{!doctorList}" var="doc" styleClass="doctorTable">
             <apex:column value="{! doc.Full_Name__c}">
-              <apex:facet name="header">Full Name</apex:facet>
+              <apex:facet name="{!$Label.docFullName}">Full Name</apex:facet>
             </apex:column>
             <apex:column value="{! doc.Country__c}">
-              <apex:facet name="header">Country</apex:facet>
+              <apex:facet name="{!$Label.docCountry}">Country</apex:facet>
             </apex:column>
             <apex:column value="{! doc.City__c}">
-              <apex:facet name="header">City</apex:facet>
+              <apex:facet name="{!$Label.docCity}">City</apex:facet>
             </apex:column>
             <apex:column headerValue="actions">
-              <apex:commandLink action="/{! doc.Id}" value="view" id="view" styleClass="btn"></apex:commandLink>
-              <apex:commandLink action="/{! doc.Id}/e?retURL=%2Fa020600001DxOmHAAV" value="edit" id="edit" styleClass="btn"></apex:commandLink> 
-              <apex:commandLink action="{!showDoctorDeletePromptMethod}" value="delete" id="delete" styleClass="btn">
+              <apex:commandLink action="/{! doc.Id}" value="{!$Label.viewActionButton}" id="view" styleClass="btn"></apex:commandLink>
+              <apex:commandLink action="/{! doc.Id}/e?retURL=%2Fa020600001DxOmHAAV" value="{!$Label.editActionButton}" id="edit" styleClass="btn"></apex:commandLink> 
+              <apex:commandLink action="{!showDoctorDeletePromptMethod}" value="{!$Label.deleteActionButton}" id="delete" styleClass="btn">
                 <apex:param name="selectDocId" value="{!doc.Id}" assignTo="{!selectedDoctorId}"> </apex:param>
               </apex:commandLink> 
             </apex:column>
           </apex:pageBlockTable>
         </apex:pageBlockSection>
       <apex:pageBlockSection rendered="{!showDoctorDeletePrompt}">
-          <h1>Are you sure delete this doctor?</h1>
-          <apex:panelGrid columns="2" style="display: inline-block">   
-          <apex:commandLink action="{!deleteDoctor}" value="Yes" styleClass="btn"></apex:commandLink>
-          <apex:commandLink action="{!cancelDeleteDoctor}" value="No" styleClass="btn"></apex:commandLink>
+          <apex:outputText value="{!$Label.promptMessageDeleteDoc}" styleClass="promptMessageDeleteDoc" ></apex:outputText>
+          <apex:panelGrid columns="2">   
+          <apex:commandLink action="{!deleteDoctor}" value="{!$Label.yesPromptButton}" styleClass="btn"></apex:commandLink>
+          <apex:commandLink action="{!cancelDeleteDoctor}" value="{!$Label.noPromptButton}" styleClass="btn"></apex:commandLink>
           </apex:panelGrid>
         </apex:pageBlockSection>
       </apex:pageBlock>
