@@ -1,28 +1,36 @@
 
 .doctorTable {
-    display: block;
+
     margin: 0;
     padding: 0;
     background-color: aquamarine;
+    width: 100%;
 }
 .promptMessageDeleteDoc{
     color:green;
 }
 .popUpMessage{
-    background-color: white;
+    background-color: whitesmoke;
     border-width: 2px;
-    border-style: solid;
     z-index: 999;
-    left: 50%;
-    padding:50px;
-    position: absolute;
     /* These are the 3 css properties you will need to change so the popup 
     displays in the center of the screen. First set the width. Then set 
     margin-left to negative half of what the width is. You can add 
     the height property for a fixed size pop up if you want.*/
-    width: 500px;
-    margin-left: -250px;
-    top:100px;
+    width: 75%;
+    top: 5vh;
+    margin-left: 5vw;
+    position: absolute;
+}
+
+.popUpBackground{
+    background-color: white;
+    z-index: 998;
+    position: absolute;
     border-radius: 10px;
-    width: 50%;
+    border-style: solid;
+    width: 80%;
+    height: 80%;
+    left: 5vw;
+    top: 5vh;
 }
