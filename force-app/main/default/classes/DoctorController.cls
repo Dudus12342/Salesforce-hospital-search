@@ -1,14 +1,20 @@
 public with sharing class DoctorController {
     public Doctor__c doctor {get; set;}
     public List<Doctor__c> doctorList {get; set;}
+    public Hospital__c hospital {get; set;}
+    public List<Hospital__c> hospitalList {get; set;}
     public Id selectedDoctorId {get; set;}
     public Boolean showTableBlockFlag {get; set;}
     public Boolean showDoctorDeletePrompt {get; set;}
+    public Boolean displayPopUp {get; set;}
     public DoctorController() {
         doctor = new Doctor__c();
         doctorList = new List<Doctor__c>(); 
+        hospital = new Hospital__c();
+        hospitalList = new List<Hospital__c>();
         showTableBlockFlag = false; 
         showDoctorDeletePrompt = false;
+        displayPopUp = false;
     }
     public String createQueryForDoctors(){
         String queryString = 'SELECT Full_Name__c, Country__c, City__c FROM Doctor__c WHERE Last_Name__c LIKE \'' + doctor.Last_Name__c + '%\'';
@@ -54,4 +60,12 @@ public with sharing class DoctorController {
         showDoctorDeletePrompt = false;
     }
   
+    public void showPopUpMethod(){
+        displayPopUp = true;
+         
+    }
+    public void closePopUpmethod(){
+        displayPopUp = false;
+    }
+    
 }

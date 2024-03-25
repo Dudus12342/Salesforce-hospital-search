@@ -30,7 +30,11 @@
               <apex:commandLink action="/{! doc.Id}/e?retURL=%2Fa020600001DxOmHAAV" value="{!$Label.editActionButton}" id="edit" styleClass="btn"></apex:commandLink> 
               <apex:commandLink action="{!showDoctorDeletePromptMethod}" value="{!$Label.deleteActionButton}" id="delete" styleClass="btn">
                 <apex:param name="selectDocId" value="{!doc.Id}" assignTo="{!selectedDoctorId}"> </apex:param>
-              </apex:commandLink> 
+              </apex:commandLink>
+              <apex:commandLink action="{!showPopUpMethod}" value="{!$Label.hireActionButton}" id="hire" styleClass="btn"></apex:commandLink> 
+              <apex:pageBlockSection rendered="{!displayPopUp}">
+              <apex:outputText value="{!$Label.popUpMessage}" styleClass="popUpMessage"></apex:outputText>
+            </apex:pageBlockSection>  
             </apex:column>
           </apex:pageBlockTable>
         </apex:pageBlockSection>
