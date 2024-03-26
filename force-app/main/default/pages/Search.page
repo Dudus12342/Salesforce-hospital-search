@@ -1,11 +1,11 @@
-<apex:page controller="DoctorController">
+<apex:page controller="DoctorController" docType="html-5.0">
   <apex:stylesheet value="{!$Resource.searchStyle}" />
   <apex:form>
     <apex:pageBlock>
       <!-- INPUT FIELDS -->
       <apex:pageBlockSection>
             <apex:inputField label="{!$Label.firstNameDoc}" value="{!doctor.First_Name__c}"></apex:inputField>
-            <apex:inputField rendered="true" label="{!$Label.lastNameDoc}" value="{!doctor.Last_Name__c}"></apex:inputField>
+            <apex:inputField required="true" label="{!$Label.lastNameDoc}" value="{!doctor.Last_Name__c}"></apex:inputField>
             <apex:inputField label="{!$Label.cityDoc}" value="{!doctor.City__c}"></apex:inputField>
             <apex:inputField label="{!$Label.countryDoc}" value="{!doctor.Country__c}"></apex:inputField>
             <apex:panelGrid columns="2" style="display: inline-block">   
@@ -33,7 +33,9 @@
               <apex:commandLink action="{!showDoctorDeletePromptMethod}" value="{!$Label.deleteActionButton}" id="delete" styleClass="btn">
                 <apex:param name="selectDocId" value="{!doc.Id}" assignTo="{!selectedDoctorId}"> </apex:param>
               </apex:commandLink>
-              <apex:commandLink action="{!showPopUpMethod}" value="{!$Label.hireActionButton}" id="hire" styleClass="btn"></apex:commandLink> 
+              <apex:commandLink action="{!showPopUpMethod}" value="{!$Label.hireActionButton}" id="hireButton" styleClass="btn">
+                <apex:param name="selectDocId" value="{!doc.Id}" assignTo="{!selectedDoctorId}"> </apex:param>
+            </apex:commandLink> 
             </apex:column>
           </apex:pageBlockTable>
         </apex:pageBlockSection>
@@ -52,25 +54,35 @@
         <apex:outputPanel styleClass="popUpMessage">
           <apex:outputText value="{!$Label.popUpMessage}"></apex:outputText>
           <apex:inputField label="{!$Label.hospitalName}" value="{!hospital.Hospital_Name__c}"></apex:inputField>
-          <apex:commandLink action="{!closePopUpMethod}" value="{!$Label.closeButton}" id="close" styleClass="btn"/>
           <apex:commandLink action="{!searchHospitals}" value="{!$Label.searchActionButton}" id="search" styleClass="btn" /> 
           <apex:commandLink action="{!clearHospitalTable}" value="{!$Label.clearActionButton}" id="clear" styleClass="btn"  /> 
+          <apex:outputPanel>
           <apex:pageBlockSection rendered="{!showTableBlockFlag}"> 
           <apex:pageBlockTable value="{!hospitalList}" var="hos" styleClass="doctorTable">
+            <apex:column headerValue="actions">
+              <apex:commandLink action="{!selectHospitalsDates}" value="{!$Label.selectButton}" id="search" styleClass="btn"> 
+              <apex:param name="selectHosId" value="{!hos.Id}" assignTo="{!selectedHospitalId}"> </apex:param>
+              </apex:commandLink>
+            </apex:column>
             <apex:column value="{! hos.Hospital_Name__c}">
               <apex:facet name="{!$Label.hospitalName}">Hospital Name</apex:facet>
             </apex:column>
             <apex:column value="{! hos.City__c}">
               <apex:facet name="{!$Label.cityHospital}">City</apex:facet>
             </apex:column>
-            <apex:column headerValue="actions">
-              <apex:commandLink value="{!$Label.hireActionButton}" id="hire" styleClass="btn"></apex:commandLink> 
-            </apex:column>
           </apex:pageBlockTable>
-        </apex:pageBlockSection>
-        </apex:outputPanel>
-        </apex:outputPanel>
+          </apex:pageBlockSection>
+        <apex:pageBlock rendered="{!showHospitalDatesFlag}">
+        <apex:inputField required="true" label="{!$Label.searchStartDate}" value="{!contract.Start_Date__c}" type="date">
+        <apex:actionSupport event="onchange" action="{!checkStartDateFilled}"/>
+        </apex:inputField>
+        <apex:inputField label="{!$Label.searchEndDate}" value="{!contract.End_Date__c}" type="date"></apex:inputField>
+        <apex:commandLink value="{!$Label.hireActionButton}" id="hireButton" styleClass="btn" action="{!hireDoctor}"></apex:commandLink>
       </apex:pageBlock>
-
+        </apex:outputPanel>
+        <apex:commandButton action="{!closePopUpMethod}" value="{!$Label.closeButton}" styleClass="btn"/>
+        </apex:outputPanel>
+      </apex:outputPanel>
+    </apex:pageBlock>
   </apex:form>
 </apex:page>
