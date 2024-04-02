@@ -4,14 +4,14 @@ public with sharing class DoctorController {
     public Hospital__c hospital {get; set;}
     public List<Hospital__c> hospitalList {get; set;}
     public Id selectedDoctorId {get; set;}
-    public Id selectedHospitalId { get; set; }
+    public Id selectedHospitalId {get; set;}
     public Boolean showTableBlockFlag {get; set;}
     public Boolean showTableBlockFlagForHospitals {get; set;}
     public Boolean showDoctorDeletePrompt {get; set;}
     public Boolean displayPopUp {get; set;}
     public Boolean showHospitalDatesFlag {get; set;}
     public Contract__c contract {get; set;}
-    public List<Contract__c> contractList {get; set; }
+    public List<Contract__c> contractList {get; set;}
     public Boolean isStartDateFilled {get; set;}
 
     public DoctorController() {
