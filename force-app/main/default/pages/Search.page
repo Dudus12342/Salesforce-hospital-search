@@ -55,7 +55,7 @@
           <apex:outputText value="{!$Label.popUpMessage}"></apex:outputText>
           <apex:inputField label="{!$Label.hospitalName}" value="{!hospital.Hospital_Name__c}"></apex:inputField>
           <apex:commandLink action="{!searchHospitals}" value="{!$Label.searchActionButton}" id="search" styleClass="btn" /> 
-          <apex:commandLink action="{!clearHospitalTable}" value="{!$Label.clearActionButton}" id="clear" styleClass="btn"  /> 
+          <apex:commandLink action="{!clearTablePopUp}" value="{!$Label.clearActionButton}" id="clear" styleClass="btn"  /> 
           <apex:outputPanel>
           <apex:pageBlockSection rendered="{!showTableBlockFlag}"> 
           <apex:pageBlockTable value="{!hospitalList}" var="hos" styleClass="doctorTable">

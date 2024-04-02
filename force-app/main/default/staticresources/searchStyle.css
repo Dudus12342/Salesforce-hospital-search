@@ -1,11 +1,12 @@
 
 .doctorTable {
-
+    text-align: center;
     margin: 0;
     padding: 0;
     background-color: aquamarine;
     width: 100%;
 }
+
 .promptMessageDeleteDoc{
     color:green;
 }

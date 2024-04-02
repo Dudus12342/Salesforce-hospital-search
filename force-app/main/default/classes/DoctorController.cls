@@ -82,16 +82,19 @@ public with sharing class DoctorController {
 // Pop up
     public void showPopUpMethod(){
         displayPopUp = true;
+        showTableBlockFlag = false;
          
     }
     public void closePopUpMethod(){
         displayPopUp = false;
     }
 // Pop up database for hospitals
-    public void clearHospitalTable(){
+    public void clearTablePopUp(){
         hospital = new Hospital__c();
         hospitalList = new List<Hospital__c>();
         contractList = new List<Contract__c>();
+        showTableBlockFlag = false;
+        showHospitalDatesFlag = false; 
         if(hospitalList == null || hospitalList.isEmpty()){
             showTableBlockFlag = false;
         }else{
@@ -114,19 +117,18 @@ public with sharing class DoctorController {
     }
 
     public void hireDoctor() {
-        System.debug('gownoXD');
         System.debug(String.isNotBlank(String.valueOf(selectedHospitalId)));
         System.debug(contract != null);
+        
         if (String.isNotBlank(String.valueOf(selectedHospitalId)) && contract != null) {
-            System.debug('aborszyn');
             Contract__c newContract = new Contract__c();
             newContract.Hospital_Id__c= selectedHospitalId;
             newContract.Doctor_Id__c = selectedDoctorId;
             newContract.Start_Date__c = contract.Start_Date__c; 
             newContract.End_Date__c = contract.End_Date__c;
             System.debug(contract);
-            Database.SaveResult whatever = Database.insert(newContract);
-            System.debug(whatever);
+            Database.SaveResult contractResult = Database.insert(newContract);
+            System.debug(contractResult);
         }
  }
 }
