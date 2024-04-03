@@ -9,14 +9,15 @@ public with sharing class ContractController {
         List<Contract__c> contractRecords = [SELECT Doctor_Id__c, End_Date__c, Hospital_Id__c, Start_Date__c FROM Contract__c WHERE Doctor_Id__c IN :doctorIds AND Hospital_Id__c IN :hospitalIds];
 
         fillMapOfExistingContracts(existingContractByDoctorHospitalId, contractRecords);
-
-        for(Contract__c newContract :newContracts){
-            for (Contract__c oldContract : oldContracts) {
-                if(oldContracts != null && newContracts != null) {
-                    if ((newContract.Start_Date__c >= oldContract.Start_Date__c && newContract.Start_Date__c <= oldContract.End_Date__c) || 
-                    (newContract.End_Date__c >= oldContract.Start_Date__c && newContract.End_Date__c <= oldContract.End_Date__c) ||
-                    (newContract.Start_Date__c <= oldContract.Start_Date__c && newContract.End_Date__c >= oldContract.End_Date__c)){
-                    newContract.addError('Dates from ' + oldContract.Start_Date__c + 'to ' + oldContract.End_Date__c + 'is occupated.');
+        System.debug('whatever');
+        for(Contract__c contract :newContracts){
+            if(existingContractByDoctorHospitalId.containsKey((String) contract.Doctor_Id__c + (String)contract.Hospital_Id__c)){
+                List<Contract__c> contractsForDoctorHospital = existingContractByDoctorHospitalId.get((String) contract.Doctor_Id__c + (String)contract.Hospital_Id__c);
+                System.debug('przeszlo przez liste');
+                for(Contract__c existingContract :contractsForDoctorHospital){
+                    if(doDatesOverlap(contract.Start_Date__c, contract.End_Date__c, existingContract.Start_Date__c, existingContract.End_Date__c)){
+                       contract.addError('Dates from' + existingContract.Start_Date__c + ' to' + existingContract.End_Date__c + 'are occupied by existing: ' + existingContract.Id + ' please, select free date');
+                       System.debug('jest w metodzie dodatesoverlap');
                     }
                 }
             }
@@ -40,5 +41,13 @@ public with sharing class ContractController {
                 }
             }
         }
+    }
+    public static Boolean doDatesOverlap(Date startDate1, Date endDate1, Date startDate2, Date endDate2) {
+        if ((startDate1 >= startDate2 && startDate1 <= endDate2) || 
+            (endDate1 >= startDate2 && endDate1 <= endDate2) ||
+            (startDate1 <= startDate2 && endDate1 >= endDate2)) {
+            return true;
+        }
+        return false;
     }
 }

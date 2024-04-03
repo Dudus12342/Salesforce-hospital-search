@@ -9,7 +9,7 @@ public with sharing class ContractHandler extends TriggerFactory{
         ContractController.duplicateContractChecker(this.oldContracts, this.newContracts);
     }
     public override void beforeInsert(){
-        ContractController.duplicateContractChecker(this.oldContracts, this.newContracts);
+        ContractController.duplicateContractChecker(new List<Contract__c>(), this.newContracts);
     }
 }
 
