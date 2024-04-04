@@ -9,18 +9,22 @@ public with sharing class ContractController {
         List<Contract__c> contractRecords = [SELECT Doctor_Id__c, End_Date__c, Hospital_Id__c, Start_Date__c FROM Contract__c WHERE Doctor_Id__c IN :doctorIds AND Hospital_Id__c IN :hospitalIds];
 
         fillMapOfExistingContracts(existingContractByDoctorHospitalId, contractRecords);
-        System.debug('whatever');
+    
+        //String add error
+        //Lista do triggera przychodzi lista to ma sprawdzać jak doda sie rekord i czy sie powielaja 
+        //fora wenwetrznego wywalic do innej metody
+    
         for(Contract__c contract :newContracts){
+            String error = '';
             if(existingContractByDoctorHospitalId.containsKey((String) contract.Doctor_Id__c + (String)contract.Hospital_Id__c)){
                 List<Contract__c> contractsForDoctorHospital = existingContractByDoctorHospitalId.get((String) contract.Doctor_Id__c + (String)contract.Hospital_Id__c);
-                System.debug('przeszlo przez liste');
                 for(Contract__c existingContract :contractsForDoctorHospital){
                     if(doDatesOverlap(contract.Start_Date__c, contract.End_Date__c, existingContract.Start_Date__c, existingContract.End_Date__c)){
-                       contract.addError('Dates from' + existingContract.Start_Date__c + ' to' + existingContract.End_Date__c + 'are occupied by existing: ' + existingContract.Id + ' please, select free date');
-                       System.debug('jest w metodzie dodatesoverlap');
+                    contract.addError('Dates from ' + existingContract.Start_Date__c + ' to ' + existingContract.End_Date__c + ' are occupied by existing: ' + existingContract.Id + ' please, select free date');
                     }
                 }
             }
+            contract.addError(error);
         }
     }
 
@@ -32,7 +36,7 @@ public with sharing class ContractController {
         }
     }  
     public static void fillMapOfExistingContracts(Map<String, List<Contract__c>> existingContractByDoctorHospitalId,  List<Contract__c> contractRecords){
-        if(!existingContractByDoctorHospitalId.isEmpty()){
+        if(!contractRecords.isEmpty()){
             for (Contract__c contract : contractRecords){
                 if(existingContractByDoctorHospitalId.containsKey((String) contract.Doctor_Id__c + (String)contract.Hospital_Id__c)){
                 existingContractByDoctorHospitalId.get((String) contract.Doctor_Id__c + (String)contract.Hospital_Id__c).add(contract);
